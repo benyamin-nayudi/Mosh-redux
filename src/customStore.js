@@ -15,7 +15,6 @@ function createStore (reducer){
     // in the real store in redux there is multiple type checking but we don't have any here , one of them checks if the action have type property in it or not
     function dispatch(action){
         state = reducer(state, action)
-        console.log(listeners)
         
         for(let i = 0 ; i < listeners.length ;i++){
             return listeners[i]()

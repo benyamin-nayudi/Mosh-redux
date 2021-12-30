@@ -1,4 +1,5 @@
 import store from './store'
+import * as actions from './actionTypes'
 
 // the subscribe method will fire every time the state of the store changes
 // UI components should subscribe to the store so they can rerender(in react) or refresh the view (like vanilla js)
@@ -8,9 +9,11 @@ const unsubscribe = store.subscribe(()=>{
 })
 
 
-
+// calls the reducer and gives it the current state and action we dispatch . 
+// the get the new state 
+// notify the subscribers
 store.dispatch({
-    type: "bugAdded" , 
+    type: actions.BUG_ADDED , 
     payload:{
         description: 'bug1'
     }
@@ -19,7 +22,7 @@ store.dispatch({
 unsubscribe()
 
 store.dispatch({
-    type: 'bugRemoved',
+    type: actions.BUG_REMOVED,
     payload: {
         id: 1
     }

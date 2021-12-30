@@ -1,3 +1,2 @@
-action creators
+creating custom store
 
-adding another reducer => bugResolved

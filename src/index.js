@@ -1,21 +1,9 @@
-import store from './store'
-import {bugAdded , bugRemoved , bugResolved}  from './actions'
+// a very important note here that we can't change the store directly , so if we want to change its states we should use the dispatch function
 
+import store from "./customStore";
 
+// here we can modify the store state 
 
-const unsubscribe = store.subscribe(()=>{
-    console.log('store changed!' , store.getState())
-})
+store.state = 1
+console.log(store.state)
 
-
-store.dispatch(bugAdded('bug1'))
-
-// unsubscribe()
-
-
-store.dispatch(bugResolved(1))
-
-store.dispatch(bugRemoved(1))
-
-
-console.log(store.getState())

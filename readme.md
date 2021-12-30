@@ -1,9 +1,3 @@
-initial files
+action creators
 
-store design
-
-subscribe and unsubscribe
-
-actionTypes
-
-dispatch functionality
+adding another reducer => bugResolved

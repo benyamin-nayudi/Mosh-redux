@@ -1,17 +1,26 @@
-// here we are making a store . our store function returns and object with a property => state , that we have declared above it. if we import it in index.js we can modify it from outside of the function (and this is bad )
-function createStore (){
+// to access the reducer we should import it and we pass it to the createStore function at the end (when we export it)
+import reducer from './reducer'
+
+
+// to change the state we should implement the dispatch function . the dispatch accepts a reducer function that we pass to the store as argument. 
+
+function createStore (reducer){
     let state;
 
-    // functions are first class citizens , so we can declare another function inside a function 
+    function dispatch(action){
+        // then here we call the reducer and pass it the previous state and the action and store it inside the state again. 
+        state = reducer(state, action)
+    }
+
     function getState(){
-        return state; // we call this function a getter , because it gets the value of the properties without letting us to change its value
+        return state
     }
     return {
-        // in OOP terms we say that our store has a method name: getState
+        dispatch ,
         getState 
     }
 }
 
-export default createStore();
+export default createStore(reducer);
 
 

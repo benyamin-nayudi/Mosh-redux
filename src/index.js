@@ -1,14 +1,8 @@
-// a very important note here that we can't change the store directly , so if we want to change its states we should use the dispatch function
 
 import store from "./customStore";
+import * as actions from './actions'
 
-// now if we console the getState method we get Undefined because we haven't initialized our variable 
-// console.log(store.getState())
+// our store object has a dispatch method, the dispatch method gets an action and an action, and gives it to the reducer function (that we have passed to the store) , then the reducer gets the state and the action and returns a new state and store it inside the state again. then we get the State by getState() method . easy peasy :) 
+store.dispatch(actions.bugAdded('bug1'))
 
-// now if we set 
-store.state = 1 
-// it will log state: 1 , but this is another state and it is not our state variable in the store and we dynamically added it to the store object
-console.log(store)
-// so this is how we implement private properties in javascript
-
-
+console.log(store.getState())

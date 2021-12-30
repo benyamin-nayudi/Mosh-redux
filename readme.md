@@ -1,2 +1,2 @@
-creating custom store
+implementing private property in js
 

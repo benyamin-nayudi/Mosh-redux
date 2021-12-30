@@ -2,9 +2,16 @@
 function createStore (){
     let state;
 
+    // functions are first class citizens , so we can declare another function inside a function 
+    function getState(){
+        return state; // we call this function a getter , because it gets the value of the properties without letting us to change its value
+    }
     return {
-        state
+        // in OOP terms we say that our store has a method name: getState
+        getState 
     }
 }
 
 export default createStore();
+
+

@@ -10,6 +10,16 @@ import { createAction } from '@reduxjs/toolkit'
 //& console.log('action' , bugUpdated(1))
 //& console.log('action2' , bugUpdated({id: 2}))
 
+
+//# export const bugAdded = description =>({
+//#     type: BUG_ADDED , 
+//#     payload:{
+//#         description
+//#     }
+//# })
+
+
+
 //* the bugUpdated is an object and we can access its properties (type and payload)
 //&console.log(bugUpdated.type)
 

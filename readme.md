@@ -12,3 +12,5 @@
 2. you need to export individual actions
 
 lets implement it...
+
+> rename the `store` file to `configureStore` and export default a function that returns the `store` that has been created by `createStore`

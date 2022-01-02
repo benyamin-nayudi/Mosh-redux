@@ -10,3 +10,4 @@
 
 > in fact the `createSlice` function automatically create `actionTypes` and `reducers` from those key-value pairs. (it calls two function => the `createAction` and `createReducer`)
 
+3. at the end we must export default the `slice.reducer` and export the `actions` (we can use destructuring )

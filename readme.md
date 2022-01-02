@@ -6,6 +6,10 @@
 
 3. `ducks pattern`: make any feature a single file like : `auth.js` and put all the `actions` , `reducers` and `actionTypes` in a single file avoiding to jump between three files
 
+4. another approach in designing the folders and files is to have separated folders for each feature containing actions.js, reducer.js ,actionTypes.js and so on. 
+
+> these methods does have their pros and cons and it absolutely depends on your project.
+
 ## rules of the DUCKS pattern
 
 1. your reducer must be a default export

@@ -1,33 +1,38 @@
+import { createAction } from '@reduxjs/toolkit'
+
+
+
+//* we can make actionCreators using createAction function from redux-toolkits
+//*  we just simply give the createAction an argument and that will become the type of the action . and then store it in a variable and when invoking it if we pass any data to it as an argument it will make it as the action payload.
+//* in fact we have converted those big actionCreators into a single line
+
+//& const bugUpdated = createAction('bugUpdated')
+//& console.log('action' , bugUpdated(1))
+//& console.log('action2' , bugUpdated({id: 2}))
+
+//* the bugUpdated is an object and we can access its properties (type and payload)
+//&console.log(bugUpdated.type)
+
+
+
+
 // actionTypes
-// we dont need to export actionTypes.
- const BUG_ADDED = 'bugAdded'
- const BUG_REMOVED = 'bugRemoved'
- const BUG_RESOLVED = 'bugResolved'
+//$ we can get rid of these .
+//  const BUG_ADDED = 'bugAdded'
+//  const BUG_REMOVED = 'bugRemoved'
+//  const BUG_RESOLVED = 'bugResolved'
 
 
 
 
+// $ lets refactor our actionCreators now with redux-toolkit
 // action creators
-export const bugAdded = description =>({
-    type: BUG_ADDED , 
-    payload:{
-        description
-    }
-})
+export const bugAdded = createAction('bugAdded')
+export const bugResolved =createAction('bugResolved')
+export const bugRemoved =createAction('bugRemoved')
 
-export const bugRemoved = id =>({
-    type: BUG_REMOVED,
-    payload: {
-        id
-    }
-})
+console.log(bugAdded())
 
-export const bugResolved = id =>({
-    type: BUG_RESOLVED ,
-    payload: {
-        id
-    }
-})
 
 
 // reducers 
@@ -35,7 +40,7 @@ let lastId = 0
 
  const reducer = (state =[] , action) =>{
     switch(action.type){
-        case BUG_ADDED:
+        case bugAdded.type:    //we can pass the type prop from bugAdded obj
         return [
             ...state , 
             {
@@ -44,9 +49,9 @@ let lastId = 0
                 resolved: false
             }
         ] 
-        case BUG_REMOVED:   
+        case bugRemoved.type:   
             return state.filter(bug => bug.id !== action.payload.id)
-        case BUG_RESOLVED :
+        case bugResolved.type :
             return state.map( bug => bug.id === action.payload.id
                                     ? {...bug , resolved:true} : bug)
 

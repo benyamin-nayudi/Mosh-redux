@@ -1,10 +1,6 @@
 
 import configureStore from "./store/configureStore";
-
-// we can name import the actions and make our code more readable
-//# import * as actions from './store/bugs'
 import { bugAdded , bugResolved ,getUnresolvedBugs } from './store/bugs'
-
 import { projectAdded } from './store/project'
 
 
@@ -28,11 +24,9 @@ store.dispatch(bugAdded({description: 'Bug 3'}))
 store.dispatch(bugResolved({id : 3}))
 
 
-// instead of hardCoding it here we can put it in its slice
-//# const unresolvedBugs = store.getState().entities.bugs.filter(bug => !bug.resolved)
-//# console.log(unresolvedBugs)
+// now after using memoization library if we call this function twice (without changing the state, the two result arrays must be equal)
+const x = getUnresolvedBugs(store.getState())
+const y = getUnresolvedBugs(store.getState())
 
 
-//* we can import the selector function and use it instead of the top approach
-const unresolvedBugs = getUnresolvedBugs(store.getState())
-console.log(unresolvedBugs)
+console.log(x === y)

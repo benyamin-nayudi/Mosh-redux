@@ -1,17 +1,24 @@
-### selectors
-> if we want to get the bugs that are not resolved we should write this snippets:
-```css
-const unresolvedBugs = store.getState().entities.bugs.filter(bug=> !bug.resolved)
+### Memoization
+>it is a technique for optimizing expensive functions. in our case the `filter` method applied in the `getUnresolvedBugs` function returns a new array every time we call it even if the state hasn't changed. so to avoid rerender for unChanged states we can use this technique. 
+
+how does it woks:
+
+so imaging that we have a function like this:
 ```
-this is not a good approach to do this. so we can encapsulate our code and put it inside the bug slice so we can use it anywhere we want.
+f(X) => Y
+```
+this function returns ` Y ` every time we pass it `X`. 
 
-> the `selector` functions in redux get a `state` and returns the computed `state` , in this case our `getUnresolvedBugs` function returns us a bugs that are not resolved.
+in this case we can build a `cache` of `input` and `output` to store the input and the output every time we invoke this function. 
+
+```css
+f(1) => 2    { input : 1 , output: 2}
+```
+in this case , later on if we pass it 1 again it no longer needs to recompute the output again and it can just returns the output in the cache object.
+
+> for this we can use the `reselect` library 
+
+>look for more in the [bugs](src\store\bugs.js) file 
 
 
-other naming conventions for selectors : 
-- `selectUnresolvedBugs` 
-- `UnresolvedBugsSelector`
-- `getUnresolvedBugs`
 
-
-> instead of importing all the actions from the bug file we can name import our actions so it makes it more readable ( we can use the old way of calling them :` actions.getUnresolvedBugs()`)

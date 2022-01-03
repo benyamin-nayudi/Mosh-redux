@@ -14,10 +14,10 @@ store.subscribe(()=>{
 store.dispatch(projectAdded({name :'project 1'}))
 store.dispatch(projectAdded({name :'project 2'}))
 
-store.dispatch(actions.bugAdded({description: 'Bug 1'}))
+// store.dispatch(actions.bugAdded({description: 'Bug 1'}))
 
-store.dispatch(actions.bugAdded({description: 'Bug 2'}))
+// store.dispatch(actions.bugAdded({description: 'Bug 2'}))
 
-store.dispatch(actions.bugAdded({description: 'Bug 3'}))
+// store.dispatch(actions.bugAdded({description: 'Bug 3'}))
 
-store.dispatch(actions.bugResolved({id : 3}))
+// store.dispatch(actions.bugResolved({id : 3}))

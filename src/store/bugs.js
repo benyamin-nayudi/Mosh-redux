@@ -28,3 +28,4 @@ let lastId = 0
 export const {bugAdded , bugResolved }  = slice.actions
 export default slice.reducer
 
+console.log('slice' , slice)

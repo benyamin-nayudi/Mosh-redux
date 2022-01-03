@@ -1,34 +1,91 @@
-### storing local state in redux & storing all states in redux
+### structuring the redux store:
+> there is some structuring patterns that we can use while designing the redux store.
 
-### there is two approaches that we can store states in redux
+the first structure is an array of bug objects:
 
-1. store just the global states in the redux store (those states that some components use them ) and leave the rest as local states. 
-     
-    - for example if you have a shopping website you can store the `cart` and `user` object in the store and leave the other states as local states.
-> but don't forget that you are using the redux for small amount of your project and in this case it is better to use `useContext` hook in react. 
+```
+[
+    { id: 1 , desc: '' , resolved : false } , 
+    { id: 2 , desc: '' , resolved : false } , 
+    { id: 3 , desc: '' , resolved : false } ,
+    { ... } 
+]
+```
+there is another way to store the data and it is an objects inside an object like this:
 
-> **so if you use redux just to share data it is better to use context because it is easy to implement.**
+```js
+{
+    1:  { id: 1 , desc: '' , resolved : false } , 
+    2:  { id: 2 , desc: '' , resolved : false } , 
+    3:  { id: 3 , desc: '' , resolved : false } ,
+    4: { ... }, 
+}
+```
+with this structure we are mapping the bug id to a bug object.( in this case each key is => bug Id and the value => bug object )
+
+benefits of this structure:
+- you can lookup a but easily by its id => `state[1]` and it is a very fast operation.
+
+but if we want to lookup a but in the previous structure :
+```css
+    const inx = state.findIndex(bug => bug.id === 1);
+    state[idx]
+```
+> the more items we have in this array the longer it takes to lookup the id and our codes is longer
+
+>note that object allow us a fast lookup but they preserve order so if the user changes the list of bugs we can't change the order of the bugs objects **so you fist must understand what problem are you going to solve**
+
+fast lookups => object
+ordered data => array
+
+## we can have the combination of the two.
+```js
+    {
+        byId:{
+            1: { ... },
+            2: { ... },
+            3: { ... }
+        },
+        allIds:[ 3 , 1 , 2]
+    }
+```
+> in this structure we have the `byId` property that represent the bug objects and `allIds` that represents the order of the bugs. so if the user changes the order we simply change the `allIds` array but we still have the `byId` to quickly lookup for bugs.
+
+---
+
+in the real projects we might have more than one slice :
+```js
+    {
+        bugs: [] ,
+        projects: [] , 
+        tags: []
+    }
+```
+ one good practice is to put these objects under a property name `entities` because these object are parts of our application domain:
+```js
+    {
+        entities: {
+            bugs: [] ,
+            projects: [] , 
+            tags: []
+        }
+    }
+```
+
+and by this approach we can have more top level slices like `auth` (data about the current user ) and `ui` (that stores states specific to a certain pages or components for example for the bug page we can store the search `query` and ...  . these values represents the `ui` states and are different from the `entities`)  :
+```js 
+    {
+        entities: { ... } , 
+        auth: { useId : 1 , name : "benyamin" },
+        ui: {
+            bugs: { query: '...' , sortBy : '...' }
+        }
+    }
+```
  
- ---
-2. store everything in the redux store.
-- `unified data access:` our code will be more consistent and more maintainable.
-- `cacheability`: so when our data is already in the store we can access it without need to refetch it from the server
-- easier debugging with redux devtools
-- more testable code
-
-> **but you need to write more redux code**
-
-### exception:
-> we normally don't want to store the form states in our redux store. because they are:
-1. temporary values
-2. too many dispatches
-3. harder debugging
-
-so we don't want to update the store while the user `update the data` (filling the form) but we want to update the store when the user `submit` the data
-
->**`so remember to not use redux for handling form states`**
 
 
-> the more state we put in the store the more we can get our of redux but it doesn't mean that we should put everything in the store. the local state is fine and we  should use it when it makes sense:
-1. dealing with data that other part of the application doesn't care about it is better to store this data locally in the component
+
+
+
 

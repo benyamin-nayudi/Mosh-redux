@@ -1,24 +1,45 @@
-### Memoization
->it is a technique for optimizing expensive functions. in our case the `filter` method applied in the `getUnresolvedBugs` function returns a new array every time we call it even if the state hasn't changed. so to avoid rerender for unChanged states we can use this technique. 
+### implementing the ability to assign bugs to users
+1. we should create a new slice for adding users in [users.js](./src/store/users.js)
 
-how does it woks:
+2. then we should add a reducer to [bugs.js](./src/store/bugs.js) so that it can assign a bug to user
 
-so imaging that we have a function like this:
-```
-f(X) => Y
-```
-this function returns ` Y ` every time we pass it `X`. 
-
-in this case we can build a `cache` of `input` and `output` to store the input and the output every time we invoke this function. 
-
+3. then create selector (`getBugsByUser`) to return a user bugs. so we define a function with createSelector like this: 
 ```css
-f(1) => 2    { input : 1 , output: 2}
+export const  getBugsByUser =  createSelector(
+    state => state.entities.bugs,
+    bugs => bugs.filter(bug => bug.userId === ??? )
+)
 ```
-in this case , later on if we pass it 1 again it no longer needs to recompute the output again and it can just returns the output in the cache object.
 
-> for this we can use the `reselect` library 
+> but here we must get the userId ,so instead of assigning it to `getBugsByUser` constant , we can assign it to a different function (`userId`) , this function accepts an argument (`userId`) and  return a value that returned from the `createSelector` function. in other words:
+```css
+export const  getBugsByUser = userId =>  createSelector(
+    state => state.entities.bugs,
+    bugs => bugs.filter(bug => bug.userId === userId )
+)
+```
 
->look for more in the [bugs](src\store\bugs.js) file 
+now if we :  
+```css 
+const selector = getBugsByUser(1)
+```
+this will return a function that accepts a state so we can give it :
+```css 
+selector(state)
+```
+
+now we can invoke it in [index.js](./src/index.js) like this:
+```css
+const bugs = getBugsByUser(1)(store.getState())
+```
 
 
-
+we can rewrite it like this 
+```css
+export function getBugsByUser(userId){
+    return createSelector(
+        state => state.entities.bugs,
+        bugs => bugs.filter(bug => bug.userId === userId)
+    )
+}
+```

@@ -1,8 +1,8 @@
 
 import configureStore from "./store/configureStore";
-import { bugAdded , bugResolved ,getUnresolvedBugs } from './store/bugs'
+import { bugAdded , bugResolved , bugAssignToUser , getBugsByUser } from './store/bugs'
 import { projectAdded } from './store/project'
-
+import { userAdded } from "./store/users";
 
 const store = configureStore();
 
@@ -10,6 +10,9 @@ const store = configureStore();
 store.subscribe(()=>{
     console.log('state changed!')
 })
+
+store.dispatch(userAdded({name :'user 1'}))
+store.dispatch(userAdded({name :'user 2'}))
 
 
 store.dispatch(projectAdded({name :'project 1'}))
@@ -23,10 +26,9 @@ store.dispatch(bugAdded({description: 'Bug 3'}))
 
 store.dispatch(bugResolved({id : 3}))
 
-
-// now after using memoization library if we call this function twice (without changing the state, the two result arrays must be equal)
-const x = getUnresolvedBugs(store.getState())
-const y = getUnresolvedBugs(store.getState())
+store.dispatch(bugAssignToUser({ bugId : 1 , userId : 1}))
 
 
-console.log(x === y)
+
+const bugs = getBugsByUser(1)(store.getState())
+console.log(bugs)

@@ -1,16 +1,17 @@
-### combine multiple reducers so we can have store with multiple slices
-1. simply we can export our `slices` and import them in a file name `reducer` . then use the `combineReducer` and make an object containing them.
- 
----
----
-### further more we can put our slices under a property name `entities`.
- 
-1. to put the reducers under the `entities` object we should make a file name `entities` and import all of our entities's `reducers` . then use the `combineReducer` and combine them and export them .
+### selectors
+> if we want to get the bugs that are not resolved we should write this snippets:
+```css
+const unresolvedBugs = store.getState().entities.bugs.filter(bug=> !bug.resolved)
+```
+this is not a good approach to do this. so we can encapsulate our code and put it inside the bug slice so we can use it anywhere we want.
 
-2. in the `reducer` file we must have all of our reducers because it is our top level reducer (` root reducer` ) and we should import `reducers` like `ui` and `user` reducer in it.
+> the `selector` functions in redux get a `state` and returns the computed `state` , in this case our `getUnresolvedBugs` function returns us a bugs that are not resolved.
 
 
+other naming conventions for selectors : 
+- `selectUnresolvedBugs` 
+- `UnresolvedBugsSelector`
+- `getUnresolvedBugs`
 
 
-
-
+> instead of importing all the actions from the bug file we can name import our actions so it makes it more readable ( we can use the old way of calling them :` actions.getUnresolvedBugs()`)

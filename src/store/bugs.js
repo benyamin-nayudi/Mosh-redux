@@ -28,3 +28,8 @@ let lastId = 0
 export const {bugAdded , bugResolved }  = slice.actions
 export default slice.reducer
 
+
+// this is the selector function, and its job is to return the computed state. in this example it gets the state and returns the unResolved bugs.
+export const getUnresolvedBugs = state =>{
+   return state.entities.bugs.filter(bug => !bug.resolved)
+}

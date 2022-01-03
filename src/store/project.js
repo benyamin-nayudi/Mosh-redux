@@ -17,7 +17,6 @@ const slice = createSlice({
     }
 })
 
-console.log('project' , slice)
 
 export const { projectAdded } = slice.actions
 export default slice.reducer

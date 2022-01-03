@@ -5,6 +5,7 @@ import logger from './middleware/logger'
 
 export default function configureAppStore(){
 
-    return configureStore({ reducer , middleware:[logger] })
+    // return configureStore({ reducer , middleware:[logger('console')] })
+    return configureStore({ reducer , middleware:[logger({destination: 'console'})] })
     
 }

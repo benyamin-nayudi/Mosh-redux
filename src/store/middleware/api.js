@@ -1,20 +1,9 @@
 import axios from "axios"
-
-// this is just a simulation of the real actions so we will copy it in the index.js
-// const action = {
-//     type:'apiCallBegan' ,
-//     payload:{
-//         url:'/bugs' , 
-//         method: get , 
-//         data : {}, 
-//         onSuccess : 'bugReceived' ,
-//         onError : 'apiRequestFailed'
-//     }
-// }
+import * as actions from '../api'
 
 
 const api = ({dispatch}) => next => async action =>{
-    if(action.type !== 'apiCallBegan') return next(action)
+    if(action.type !== actions.apiCallBegan.type) return next(action)
     next(action)
     const {url , method , data , onSuccess , onError}  = action.payload
 
@@ -25,9 +14,17 @@ const api = ({dispatch}) => next => async action =>{
             method,
             data
         })
-        dispatch({type: onSuccess , payload: response.data})
-    }catch(err){
-        dispatch({type: onError , payload: error})
+        // general
+        dispatch(actions.apiCallSuccess(response.data))
+        
+        // specific
+        if(onSuccess)  dispatch({type: onSuccess , payload: response.data})
+    }catch(error){
+        // general
+        dispatch(actions.apiCallFailed(error))
+        
+        // specific
+        if(onError) dispatch({type: onError , payload: error})
     }
 }
 

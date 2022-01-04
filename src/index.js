@@ -1,28 +1,13 @@
 import { bugAdded } from "./store/bugs";
 import configureStore from "./store/configureStore";
-
+import * as actions from './store/api'
 
 const store = configureStore();
 
-// store.dispatch((dispatch , getState )=>{
-   // dispatch({type: 'bugReceived' , bugs: [1,2,3]})
-   // console.log(getState())
-// })
 
-// store.dispatch({
-//    type: 'error',
-//    payload: {message : 'An error occured.'}
-// })
+// now we can use the ability of actionCreator function from redux-toolkit to create better actions
 
-
-
-store.dispatch({
-  type:'apiCallBegan' ,
-  payload:{
-      url:'/bugs' , 
-    //   method: get ,  the default is to get
-    //   data : {}, we don't need it for now
-      onSuccess : 'bugReceived' ,
-      onError : 'apiRequestFailed'
-  }
-})
+store.dispatch(actions.apiCallBegan({
+  url:'/bugs' , 
+  onSuccess : 'bugReceived' ,
+}))

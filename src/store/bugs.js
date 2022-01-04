@@ -1,17 +1,20 @@
 
 import { createSlice } from '@reduxjs/toolkit'
 import { createSelector } from 'reselect'
+import { apiCallBegan } from './api'
 
 let lastId = 0 
 
  const slice = createSlice({
     name : 'bugs',
-    initialState : [] , 
+    initialState : {
+        list: [] , 
+        loading: false,
+        lastFetch: null
+    } , 
     reducers: {
-
-       
         bugAdded : (bugs , action ) =>{ 
-            bugs.push({
+            bugs.list.push({
                 id: ++lastId , 
                 description: action.payload.description , 
                 resolved: false 
@@ -19,20 +22,36 @@ let lastId = 0
         } , 
 
         bugResolved : (bugs , action) =>{
-            const index = bugs.findIndex( bug => bug.id === action.payload.id)
-            bugs[index].resolved = true
+            const index = bugs.list.findIndex( bug => bug.id === action.payload.id)
+            bugs.list[index].resolved = true
         } ,
         bugAssignToUser : ( bugs ,action )=>{
             const { bugId , userId} = action.payload;
-            const index = bugs.findIndex( bug => bug.id === bugId)
-            bugs[index].userId = userId
+            const index = bugs.list.findIndex( bug => bug.id === bugId)
+            bugs.list[index].userId = userId
+        },
+        bugsReceived: (bugs , action) =>{
+            bugs.list = action.payload
         }
     }
 })
 
-export const {bugAdded , bugResolved  , bugAssignToUser}  = slice.actions
+export const {bugAdded , bugResolved  , bugAssignToUser , bugsReceived}  = slice.actions
 export default slice.reducer
 
+
+// actionCreators 
+const url = '/bugs'
+
+export const loadBugs = () => apiCallBegan({
+    url , 
+    onSuccess : bugsReceived.type ,
+})
+
+
+
+
+// selectors
 
 export const getUnresolvedBugs = createSelector(
     state => state.entities.bugs,

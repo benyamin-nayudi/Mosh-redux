@@ -1,6 +1,6 @@
 import axios from "axios"
 
-// this is just a simulatin of the real actions so we will copy it in the index.js
+// this is just a simulation of the real actions so we will copy it in the index.js
 // const action = {
 //     type:'apiCallBegan' ,
 //     payload:{

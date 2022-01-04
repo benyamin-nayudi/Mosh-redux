@@ -17,12 +17,12 @@ const store = configureStore();
 
 
 store.dispatch({
-       type:'apiCallBegan' ,
-       payload:{
-           url:'/bugs' , 
-         //   method: get ,  the default is to get
-         //   data : {}, we don't need it for now
-           onSuccess : 'bugReceived' ,
-           onError : 'apiRequestFailed'
-       }
-   })
+  type:'apiCallBegan' ,
+  payload:{
+      url:'/bugs' , 
+    //   method: get ,  the default is to get
+    //   data : {}, we don't need it for now
+      onSuccess : 'bugReceived' ,
+      onError : 'apiRequestFailed'
+  }
+})

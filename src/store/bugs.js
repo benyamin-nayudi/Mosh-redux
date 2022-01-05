@@ -5,7 +5,7 @@ import { apiCallBegan } from './api'
 import moment from 'moment'
 
 
-let lastId = 0 
+// let lastId = 0 
 
  const slice = createSlice({
     name : 'bugs',
@@ -16,11 +16,12 @@ let lastId = 0
     } , 
     reducers: {
         bugAdded : (bugs , action ) =>{ 
-            bugs.list.push({
-                id: ++lastId , 
-                description: action.payload.description , 
-                resolved: false 
-            })
+            // bugs.list.push({
+            //     id: ++lastId , 
+            //     description: action.payload.description , 
+            //     resolved: false 
+            // })
+            bugs.list.push(action.payload)
         } , 
 
         bugResolved : (bugs , action) =>{
@@ -69,13 +70,12 @@ export const loadBugs = () => (dispatch , getState) =>{
 }
 
 
-// export const loadBugs = () => apiCallBegan({
-//     url , 
-//     onStart: bugsRequested.type,
-//     onSuccess : bugsReceived.type ,
-//     onError: bugsRequestFailed.type
-// })
-
+export const addBug = bug => apiCallBegan({
+    url, 
+    method: "post" , 
+    data : bug ,
+    onSuccess: bugAdded.type
+})
 
 
 

@@ -16,11 +16,6 @@ import moment from 'moment'
     } , 
     reducers: {
         bugAdded : (bugs , action ) =>{ 
-            // bugs.list.push({
-            //     id: ++lastId , 
-            //     description: action.payload.description , 
-            //     resolved: false 
-            // })
             bugs.list.push(action.payload)
         } , 
 
@@ -29,7 +24,7 @@ import moment from 'moment'
             bugs.list[index].resolved = true
         } ,
         bugAssignToUser : ( bugs ,action )=>{
-            const { bugId , userId} = action.payload;
+            const { id : bugId , userId} = action.payload;
             const index = bugs.list.findIndex( bug => bug.id === bugId)
             bugs.list[index].userId = userId
         },
@@ -78,6 +73,20 @@ export const addBug = bug => apiCallBegan({
 })
 
 
+export const resolveBug = id => apiCallBegan({
+    url : url +'/'+id,
+    method: 'patch' , 
+    data : {resolved: true} , 
+    onSuccess: bugResolved.type
+})
+
+
+export const assignBugToUser = (bugId , userId) =>apiCallBegan({
+    url : url +'/'+ bugId,
+    method: 'patch' , 
+    data : {userId} , 
+    onSuccess: bugAssignToUser.type
+})
 
 // selectors
 

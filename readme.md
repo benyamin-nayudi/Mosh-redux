@@ -1,24 +1,26 @@
-### saving data on the server
+### resolving bugs
 
-1. we have to make an API call
-2. promise resolved => dispatch(success)
-2. promise rejected => dispatch(error)
+now we have two actions : `addBug` and `bugAdded`.
+the `addBug` is like a command and `bugAdded` is like an event. so we can make this for the resolving a bug
 
+`resolveBug`(command) - `bugResolved`(event)
 
-we should make another function to handle this :
 ```js
-export const addBug = bug => apiCallBegan({
-    url, 
-    method: "post" , 
-    data : bug ,
-    onSuccess: bugAdded.type
+export const resolveBug = id => apiCallBegan({
+    url : url +'/'+id,
+    method: 'patch' , 
+    data : {resolved: true} , 
+    onSuccess: bugResolved.type
 })
 ```
 
-then we should change our reducer to add the payload that the server gives us.
 
-```css
-bugAdded : (bugs , action ) =>{ 
-    bugs.list.push(action.payload)
-} , 
+so in `index.js` we want to first load a bug then resolve it after 2s .
+
+```js
+store.dispatch(loadBugs())
+
+setTimeout(()=>{
+  store.dispatch(resolveBug(4))
+} , 2000)
 ```

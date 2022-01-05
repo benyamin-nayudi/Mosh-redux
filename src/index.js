@@ -9,4 +9,9 @@ const store = configureStore();
 store.dispatch(loadBugs())
 
 
-// store.dispatch(actions.apiCallBegan())
+setTimeout(()=>{
+  store.dispatch(loadBugs())
+
+} , 2000)
+
+

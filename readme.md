@@ -1,39 +1,52 @@
-### loading indicator
+### caching
 
-1. first we should make a reducer to handle this : bugRequested 
->this is a portion of the reducers.
+> if we `dispatch` the action in the `index.js` two times (the second one after 2seconds) , it will return us another `api call`. but we don't want that . so lets implement a functionality that when a certain amount of time has passed , then we can call the `api` , otherwise it uses the data in the `store`.
 
-```js
-bugsReceived: (bugs , action) =>{
-    bugs.list = action.payload
-    bugs.loading= false
-},
-bugsRequested : (bugs , action) =>{
-    bugs.loading = true
-}
-```
-> so first we make the `loading` message to `true` while loading the `data` and when we received the `data` we make it `false`.
+- we can assign the `Date.now()` timeStamp to the property lastFetch in the bugReceived reducer.
 
-2. set this reducer to our loadBugs function (since it is the responsible of calling the api). 
+- we want to get the value of lastFetch in loadBugs function .
 
-```js
+this function returns a function that returns a plain object:
+```js 
 export const loadBugs = () => apiCallBegan({
     url , 
     onStart: bugsRequested.type,
     onSuccess : bugsReceived.type ,
+    onError: bugsRequestFailed.type
 })
 ```
-
-3. we make our [api.js](./src/store/middleware/api.js) `middleware` dispatch the `loading` action. but make sure only `dispatch` this action when `onStart` is defined.
+and we don't have access to the current state. if we want to have the current state , we should return a function , and with thunk middleware we can dispatch functions , and this functions optionally receive two arguments ( dispatch and getState) so :
 ```js
-if(onStart) dispatch({ type: onStart })
+export const loadBugs = () =>(dispatch , getState)=>{
+    const { lastFetch } = getState().entities.bugs
+}
 ```
-> we can change the order of our actions 
-1. first we have a request
-2. the beginning of the api call
-3. api success / fail
-4. receiving the data
+and the last thing we should do is that explicitly dispatch the action so :
+```js
+export const loadBugs = () => (dispatch , getState) =>{
+    const {lastFetch} = getState().entities.bugs
+    dispatch(apiCallBegan({
+        url , 
+        onStart: bugsRequested.type,
+        onSuccess : bugsReceived.type ,
+        onError: bugsRequestFailed.type
+    })) 
 
->if our request `fails` there is no `reducer` to handle the `loading` and set it to `false` so we can make another `reducer` to handle it .
+}
+```
+### now we should compare the current time with the timeStamp , we can use `moment.js` library
+so this is how we use this library to 
+- get the `difference` in minutes and `return` if it was less than `10`
 
->we get an error of `non-serializable` action while dispatching the `api/callFailed`. we simply add `.message` to the error in the `middleware`
+```js
+    const diffInMinutes = moment().diff(moment(lastFetch) , 'minutes')
+    if(diffInMinutes < 10) return ;
+```
+
+notes:
+- it is better to store this numbers (10 ...) in a configuration file so you can change them later on
+- we can have this functionality separated to use them in another slices
+
+
+
+

@@ -42,7 +42,10 @@ import moment from 'moment'
     }
 })
 
-export const {bugAdded , bugResolved  , bugAssignToUser , bugsReceived , bugsRequested ,bugsRequestFailed}  = slice.actions
+// these actions are being used just in this module so we better not to export them , so that other dev accidentally dispatch them.
+const {bugAdded , bugResolved  , bugAssignToUser , bugsReceived , bugsRequested ,bugsRequestFailed}  = slice.actions
+
+
 export default slice.reducer
 
 

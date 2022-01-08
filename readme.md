@@ -13,7 +13,7 @@ and you can find it in the website when you open it from the tab
 
 
 ## the inspector have two parts . 
-### the right one is the actions and we can jump between them. if you select an action there is various views to show you how the state is chaning on the right hand side of the page.
+### the right one is the actions and we can jump between them. if you select an action there is various views to show you how the state is changing on the right hand side of the page.
 
 >  the action part shows you the action that has been dispatched (information about the selected action)
 - there are three different ways of showing the data , `tree` , `chart` , `Raw`.

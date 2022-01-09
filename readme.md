@@ -24,9 +24,9 @@ there is another way to store the data and it is an objects inside an object lik
 with this structure we are mapping the bug id to a bug object.( in this case each key is => bug Id and the value => bug object )
 
 benefits of this structure:
-- you can lookup a but easily by its id => `state[1]` and it is a very fast operation.
+- you can lookup a bug easily by its id => `state[1]` and it is a very fast operation.
 
-but if we want to lookup a but in the previous structure :
+but if we want to lookup a bug in the previous structure :
 ```css
     const inx = state.findIndex(bug => bug.id === 1);
     state[idx]
@@ -35,7 +35,7 @@ but if we want to lookup a but in the previous structure :
 
 >note that object allow us a fast lookup but they preserve order so if the user changes the list of bugs we can't change the order of the bugs objects **so you fist must understand what problem are you going to solve**
 
-fast lookups => object
+fast lookups => object  |
 ordered data => array
 
 ## we can have the combination of the two.

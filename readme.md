@@ -29,6 +29,6 @@ so we don't want to update the store while the user `update the data` (filling t
 >**`so remember to not use redux for handling form states`**
 
 
-> the more state we put in the store the more we can get our of redux but it doesn't mean that we should put everything in the store. the local state is fine and we  should use it when it makes sense:
+> the more state we put in the store the more we can get out of redux but it doesn't mean that we should put everything in the store. the local state is fine and we  should use it when it makes sense:
 1. dealing with data that other part of the application doesn't care about it is better to store this data locally in the component
 

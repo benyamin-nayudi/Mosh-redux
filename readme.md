@@ -1,16 +1,16 @@
 ### backend 
 
-> with the thunk middleware we can call APIs and make side effects . 
+> with the `thunk` middleware we can call `APIs` and make side effects . 
 
->note that we should not define the calling API in the reducers , because the reducers must be pure and get an action and return new state so:
+>note that we should not define the calling API in the `reducers` , because the reducers must be pure and get an action and return new state so:
 - no side effects
 - no DOM manipulation
 - no API calls
 - no state mutation
  
- this properties makes our reducers easy to test
+ this properties makes our `reducers` easy to test
 
->so we can put the functionality of calling the APIs in the actionCreators. with the thunk middleware , actionCreators can return functions, and this functions are where we encapsulate our side effects. 
+>so we can put the functionality of calling the APIs in the `actionCreators`. with the `thunk` middleware , `actionCreators` can return functions, and this functions are where we `encapsulate` our side effects. 
 
 ```js
 function actionCreator(){
@@ -20,9 +20,9 @@ function actionCreator(){
 }
 ```
 
-also we have discussed that our thunk middleware pass the dispatch and getState methods to the actionCreator , so we can dispatch new actions and look at the current state of the store.
+also we have discussed that our `thunk` middleware pass the dispatch and getState methods to the `actionCreator` , so we can `dispatch` new actions and look at the current state of the `store`.
 
-we may not need the getState so we can simplify our function:
+we may not need the `getState` so we can simplify our function:
 
 ```js
 const actionCreator = () => (dispatch) =>{
@@ -30,12 +30,12 @@ const actionCreator = () => (dispatch) =>{
 }
 ```
 
-now if we need to get the list of our bugs from the server:
-1. call api => fetch , axios , superAgent
-2. resolved promise: dispatch(success) => put the data inside the payload and pass it to the reducer to store it.
+now if we need to get the list of our `bugs` from the server:
+1. ` call api` => fetch , axios , superAgent
+2. `resolved promise`: dispatch(success) => put the data inside the payload and pass it to the reducer to store it.
 3. rejected: dispatch(error)
 
-naming conventions: 
+`naming conventions`: 
 - PRESENT:
     - GET_BUGS_REQUEST
     - GET_BUGS_SUCCESS
@@ -48,7 +48,7 @@ naming conventions:
     - bugsReceived
     - bugsRequestFailed
 
-as we go on , this functionality keep to be repeated , so we can use a middleware to implement it.
+as we go on , this functionality keep to be repeated , so we can use a `middleware` to implement it.
 
 1. create a middleware in [api.js](./src/store/middleware/api.js) file 
 
